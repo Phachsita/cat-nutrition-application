@@ -9,16 +9,28 @@ struct AppointmentView: View {
         Appointment(date: 12, month: "ธันวาคม", year: 2566, detail: "ฉีดวัคซีน", location: "คลินิกเพ็ทโฮม", theme: .orange)
     ]
     @State private var isShowingAddAppointmentForm = false
-    
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                ScrollView {
-                    ForEach(appointments) { appointment in
-                        AppointmentCardView(appointment: appointment)
+                if appointments.isEmpty {
+                    VStack {
+                        Spacer()
+                        Text("ไม่พบข้อมูล")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                        Spacer()
                     }
+                } else {
+                    List {
+                        ForEach(appointments) { appointment in
+                            AppointmentCardView(appointment: appointment)
+                        }
+                        .onDelete(perform: deleteItems)
+                    }
+                    .listStyle(PlainListStyle())
                 }
-                
+
                 Spacer()
             }
             .navigationTitle("นัดหมาย")
@@ -36,6 +48,10 @@ struct AppointmentView: View {
             }
         }
     }
+
+    private func deleteItems(at offsets: IndexSet) {
+        appointments.remove(atOffsets: offsets)
+    }
 }
 
 struct AddAppointmentForm: View {
@@ -44,9 +60,9 @@ struct AddAppointmentForm: View {
     @State private var detail = ""
     @State private var location = ""
     @State private var theme = Color.orange
-    
+
     var onSave: (Appointment) -> Void
-    
+
     var body: some View {
         NavigationView {
             Form {
@@ -95,7 +111,7 @@ struct Appointment: Identifiable {
 
 struct AppointmentCardView: View {
     var appointment: Appointment
-    
+
     var body: some View {
         VStack {
             HStack(alignment: .center) {
@@ -111,7 +127,7 @@ struct AppointmentCardView: View {
                         .foregroundColor(appointment.theme)
                 }
                 .padding()
-                
+
                 // ส่วนของข้อความ
                 VStack(alignment: .leading) {
                     Text(appointment.detail)
@@ -124,9 +140,9 @@ struct AppointmentCardView: View {
                         .minimumScaleFactor(0.6)
                 }
                 .padding()
-                
+
                 Spacer()
-                
+
                 // ภาพ (ถ้าจำเป็น)
             }
             .background(Color.white)

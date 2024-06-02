@@ -10,10 +10,14 @@ struct FeedView: View {
             VStack(alignment: .leading) {
                 
                 if foodEntryModel.foodEntries.isEmpty {
-                    HStack {
+                    VStack {
                         Spacer()
-                        Text("ไม่พบข้อมูล")
-                            .foregroundColor(.gray)
+                        HStack {
+                            Spacer()
+                            Text("ไม่พบข้อมูล")
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
                         Spacer()
                     }
                 } else {

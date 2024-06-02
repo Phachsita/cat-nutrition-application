@@ -18,71 +18,68 @@ struct IllnessView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                List {
-                    ForEach(groupedIllnesses.keys.sorted(by: { DateFormatter.thaiDateFormatter.date(from: $0)! > DateFormatter.thaiDateFormatter.date(from: $1)! }), id: \.self) { key in
-                        Section(header: Text(key).font(.headline)) {
-                            ForEach(groupedIllnesses[key]!, id: \.id) { illness in
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text(illness.description)
-                                        .font(.headline)
-//                                    Text("วันที่: \(illness.date, formatter: DateFormatter.thaiDateFormatter)")
-//                                        .font(.subheadline)
-//                                        .foregroundColor(.secondary)
-                                    Text("เวลา: \(illness.date, formatter: DateFormatter.shortTimeFormatter)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                    Text("หมายเหตุ: \(illness.notes)")
-                                        .font(.subheadline)
-                                }
-                                .padding()
-                                .contextMenu {
-                                    Button(action: {
-                                        selectedIllness = illness
-                                        showEditIllnessForm = true
-                                    }) {
-                                        Text("แก้ไข")
-                                        Image(systemName: "pencil")
+                if illnesses.isEmpty {
+                    VStack {
+                        Spacer()
+                        Text("ไม่พบข้อมูล")
+                            .font(.body)
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+                } else {
+                    List {
+                        ForEach(groupedIllnesses.keys.sorted(by: { DateFormatter.thaiDateFormatter.date(from: $0)! > DateFormatter.thaiDateFormatter.date(from: $1)! }), id: \.self) { key in
+                            Section(header: Text(key).font(.headline)) {
+                                ForEach(groupedIllnesses[key]!, id: \.id) { illness in
+                                    VStack(alignment: .leading, spacing: 5) {
+                                        Text(illness.description)
+                                            .font(.headline)
+                                        Text("เวลา: \(illness.date, formatter: DateFormatter.shortTimeFormatter)")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                        Text("หมายเหตุ: \(illness.notes)")
+                                            .font(.subheadline)
                                     }
-                                    Button(action: {
-                                        if let index = illnesses.firstIndex(where: { $0.id == illness.id }) {
-                                            illnesses.remove(at: index)
+                                    .padding()
+                                    .contextMenu {
+                                        Button(action: {
+                                            selectedIllness = illness
+                                            showEditIllnessForm = true
+                                        }) {
+                                            Text("แก้ไข")
+                                            Image(systemName: "pencil")
                                         }
-                                    }) {
-                                        Text("ลบ")
-                                        Image(systemName: "trash")
+                                        Button(action: {
+                                            if let index = illnesses.firstIndex(where: { $0.id == illness.id }) {
+                                                illnesses.remove(at: index)
+                                            }
+                                        }) {
+                                            Text("ลบ")
+                                            Image(systemName: "trash")
+                                        }
                                     }
                                 }
                             }
                         }
+                        .onDelete(perform: deleteItems)
+                        .listRowSeparator(.hidden)
                     }
-                    .onDelete(perform: deleteItems)
-                    .listRowSeparator(.hidden)
+                    .listStyle(PlainListStyle())
+                    .padding(.top, 10)
                 }
-                .listStyle(PlainListStyle())
-                .padding(.top, 10)
 
                 Spacer()
-
-                Button(action: {
-                    showAddIllnessForm = true
-                }) {
-                    HStack {
-                        Image(systemName: "plus")
-                        Text("เพิ่มบันทึกการป่วย")
-                    }
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                }
-                .sheet(isPresented: $showAddIllnessForm) {
-                    AddIllnessView(illnesses: $illnesses)
-                }
-                .padding()
             }
             .navigationTitle("บันทึกการป่วย")
-            .toolbar {
-                EditButton()
+            .navigationBarItems(trailing: Button(action: {
+                showAddIllnessForm = true
+            }) {
+                Image(systemName: "plus")
+                    .font(.title)
+                    .foregroundColor(.orange)
+            })
+            .sheet(isPresented: $showAddIllnessForm) {
+                AddIllnessView(illnesses: $illnesses)
             }
             .sheet(isPresented: $showEditIllnessForm) {
                 if let selectedIllness = selectedIllness {
