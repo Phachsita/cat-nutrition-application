@@ -4,30 +4,30 @@ struct IllnessView: View {
     @State private var showAddIllnessForm = false
     @State private var showEditIllnessForm = false
     @State private var illnesses: [Illness] = [
-        Illness(description: "มีไข้", date: Date(), notes: "อุณหภูมิสูงและไม่มีแรง"),
+        Illness(description: "มีไข้", date: Date().addingTimeInterval(-86400), notes: "อุณหภูมิสูงและไม่มีแรง"), // ตัวอย่างข้อมูลย้อนหลัง 1 วัน
         Illness(description: "อาเจียน", date: Date(), notes: "อาเจียนสองครั้งหลังจากกิน")
     ]
     @State private var selectedIllness: Illness?
 
     var groupedIllnesses: [String: [Illness]] {
-        Dictionary(grouping: illnesses) { illness in
+        Dictionary(grouping: illnesses.sorted(by: { $0.date > $1.date })) { illness in
             DateFormatter.thaiDateFormatter.string(from: illness.date)
         }
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 List {
-                    ForEach(groupedIllnesses.keys.sorted(), id: \.self) { key in
+                    ForEach(groupedIllnesses.keys.sorted(by: { DateFormatter.thaiDateFormatter.date(from: $0)! > DateFormatter.thaiDateFormatter.date(from: $1)! }), id: \.self) { key in
                         Section(header: Text(key).font(.headline)) {
                             ForEach(groupedIllnesses[key]!, id: \.id) { illness in
                                 VStack(alignment: .leading, spacing: 5) {
                                     Text(illness.description)
                                         .font(.headline)
-                                    Text("วันที่: \(illness.date, formatter: DateFormatter.thaiDateFormatter)")
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
+//                                    Text("วันที่: \(illness.date, formatter: DateFormatter.thaiDateFormatter)")
+//                                        .font(.subheadline)
+//                                        .foregroundColor(.secondary)
                                     Text("เวลา: \(illness.date, formatter: DateFormatter.shortTimeFormatter)")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
@@ -94,7 +94,7 @@ struct IllnessView: View {
 
     private func deleteItems(at offsets: IndexSet) {
         for offset in offsets {
-            let key = groupedIllnesses.keys.sorted()[offset]
+            let key = groupedIllnesses.keys.sorted(by: { DateFormatter.thaiDateFormatter.date(from: $0)! > DateFormatter.thaiDateFormatter.date(from: $1)! })[offset]
             if let illnessesToDelete = groupedIllnesses[key] {
                 for illness in illnessesToDelete {
                     if let index = illnesses.firstIndex(where: { $0.id == illness.id }) {
@@ -112,6 +112,7 @@ struct Illness: Identifiable {
     var date: Date
     var notes: String
 }
+
 
 
 struct IllnessView_Previews: PreviewProvider {

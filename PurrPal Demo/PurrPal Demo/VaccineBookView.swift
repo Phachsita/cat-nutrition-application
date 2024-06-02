@@ -3,7 +3,7 @@ import SwiftUI
 struct VaccineView: View {
     @State private var vaccineCards: [VaccineCard] = []
     @State private var isShowingAddCardForm = false
-    
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
@@ -14,6 +14,19 @@ struct VaccineView: View {
                 }
                 
                 Spacer()
+                
+                NavigationLink(destination: AppointmentView()) {
+                    Text("เพิ่มนัดหมาย")
+                        .font(.headline)
+                        .bold()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+                .padding(.bottom, 10)
             }
             .navigationTitle("สมุดวัคซีน")
             .navigationBarItems(trailing: Button(action: {
@@ -32,6 +45,8 @@ struct VaccineView: View {
     }
 }
 
+
+
 struct AddVaccineCardForm: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedDate = Date()
@@ -47,7 +62,7 @@ struct AddVaccineCardForm: View {
         NavigationView {
             Form {
                 Section(header: Text("วันที่")) {
-                    DatePicker("Select Date", selection: $selectedDate, displayedComponents: .date)
+                    DatePicker("เลือกวันที่", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(GraphicalDatePickerStyle())
                         .environment(\.locale, Locale(identifier: "th_TH"))
                 }
@@ -63,8 +78,8 @@ struct AddVaccineCardForm: View {
                 Section(header: Text("หมายเหตุ")) {
                     TextField("หมายเหตุ", text: $note)
                 }
-//                Section(header: Text("Theme Color")) {
-//                    ColorPicker("Select Color", selection: $theme)
+//                Section(header: Text("สีของธีม")) {
+//                    ColorPicker("เลือกสี", selection: $theme)
 //                }
             }
             .navigationTitle("เพิ่มวัคซีน")
@@ -130,10 +145,10 @@ struct VaccineCardView: View {
                     Text(card.location)
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                    Text("Batch: \(card.batch)")
+                    Text("หมายเลขชุดผลิต: \(card.batch)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
-                    Text("Note: \(card.note)")
+                    Text("หมายเหตุ: \(card.note)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
@@ -152,6 +167,7 @@ struct VaccineCardView: View {
         .frame(height: 150) // Set the height of the card
     }
 }
+
 
 struct VaccineView_Previews: PreviewProvider {
     static var previews: some View {

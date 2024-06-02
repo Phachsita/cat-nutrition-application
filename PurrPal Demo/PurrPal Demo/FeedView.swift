@@ -8,12 +8,6 @@ struct FeedView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                Text("ให้อาหาร")
-                    .font(.largeTitle)
-                    .bold()
-                    .padding()
-                
-                Spacer()
                 
                 if foodEntryModel.foodEntries.isEmpty {
                     HStack {
@@ -78,7 +72,7 @@ struct FeedView: View {
                 .sheet(isPresented: $showAddFoodForm) {
                     AddFoodView(foodEntries: $foodEntryModel.foodEntries)
                 }
-            }
+            }.navigationTitle("ให้อาหาร")
         }
     }
 

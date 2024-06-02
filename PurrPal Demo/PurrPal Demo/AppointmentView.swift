@@ -11,38 +11,27 @@ struct AppointmentView: View {
     @State private var isShowingAddAppointmentForm = false
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("นัดหมาย")
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            
-            ScrollView {
-                ForEach(appointments) { appointment in
-                    AppointmentCardView(appointment: appointment)
-                }
-            }
-            
-            Spacer()
-            
-            HStack {
-                Spacer()
-                Button(action: {
-                    isShowingAddAppointmentForm = true
-                }) {
-                    Image(systemName: "plus")
-                        .font(.system(size: 24))
-                        .foregroundColor(.white)
-                        .padding()
-                        .background(Color.orange)
-                        .clipShape(Circle())
-                        .shadow(radius: 2)
-                }
-                .padding()
-                .sheet(isPresented: $isShowingAddAppointmentForm) {
-                    AddAppointmentForm { newAppointment in
-                        appointments.append(newAppointment)
+        NavigationView {
+            VStack(alignment: .leading) {
+                ScrollView {
+                    ForEach(appointments) { appointment in
+                        AppointmentCardView(appointment: appointment)
                     }
+                }
+                
+                Spacer()
+            }
+            .navigationTitle("นัดหมาย")
+            .navigationBarItems(trailing: Button(action: {
+                isShowingAddAppointmentForm = true
+            }) {
+                Image(systemName: "plus")
+                    .font(.title)
+                    .foregroundColor(.orange)
+            })
+            .sheet(isPresented: $isShowingAddAppointmentForm) {
+                AddAppointmentForm { newAppointment in
+                    appointments.append(newAppointment)
                 }
             }
         }
@@ -154,4 +143,3 @@ struct AppointmentView_Previews: PreviewProvider {
         AppointmentView()
     }
 }
-
