@@ -66,7 +66,7 @@ struct FeedingHistoryView: View {
 
             Spacer()
         }
-        .navigationTitle("Feeding History")
+        .navigationTitle("ประวัติการให้อาหาร")
         .padding()
         .background(Color(UIColor.systemGray6).edgesIgnoringSafeArea(.all))
         .toolbar {
@@ -117,7 +117,7 @@ struct FeedingHistoryView_Previews: PreviewProvider {
 extension DateFormatter {
     static let thaiDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yy"
+        formatter.dateFormat = "dd/MM/yyyy"
         formatter.locale = Locale(identifier: "th_TH")
         formatter.calendar = Calendar(identifier: .buddhist)
         return formatter

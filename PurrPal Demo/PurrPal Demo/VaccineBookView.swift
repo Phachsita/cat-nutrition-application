@@ -28,18 +28,18 @@ struct VaccineView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: AppointmentView()) {
-                    Text("เพิ่มนัดหมาย")
-                        .font(.headline)
-                        .bold()
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.orange)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.horizontal)
-                }
-                .padding(.bottom, 10)
+//                NavigationLink(destination: AppointmentView()) {
+//                    Text("เพิ่มนัดหมาย")
+//                        .font(.headline)
+//                        .bold()
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.orange)
+//                        .foregroundColor(.white)
+//                        .cornerRadius(10)
+//                        .padding(.horizontal)
+//                }
+//                .padding(.bottom, 10)
             }
             .navigationTitle("สมุดวัคซีน")
             .navigationBarItems(trailing: Button(action: {

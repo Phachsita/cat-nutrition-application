@@ -11,8 +11,11 @@ struct CatProfileSelectionView: View {
         NavigationView {
             VStack {
                 if catData.catProfiles.isEmpty {
-                    Text("ยังไม่มีโปรไฟล์แมว")
-                        .padding()
+                    VStack {Spacer()
+                        Text("ยังไม่มีโปรไฟล์แมว")
+                            .padding()
+                        Spacer()
+                    }
                 } else {
                     List {
                         ForEach(catData.catProfiles) { profile in
