@@ -6,34 +6,32 @@ struct PurrPal_DemoApp: App {
 
     var body: some Scene {
         WindowGroup {
-            InitialView()
+            InitialView(selectedCat: $selectedCat)
+                .environmentObject(CatDataModel())
+                .environmentObject(FoodEntryModel())
         }
     }
 }
 
-
-
-
 struct InitialView: View {
-    @StateObject private var foodEntryModel = FoodEntryModel()
-    @StateObject private var catDataModel = CatDataModel()
-    @State private var selectedCat: CatProfile? = nil
+    @EnvironmentObject private var foodEntryModel: FoodEntryModel
+    @EnvironmentObject private var catDataModel: CatDataModel
+    @Binding var selectedCat: CatProfile?
 
     var body: some View {
         if selectedCat == nil {
             CatProfileSelectionView(selectedCat: $selectedCat)
-                .environmentObject(catDataModel)
-                .environmentObject(foodEntryModel)
         } else {
             ContentView(selectedCat: $selectedCat)
-                .environmentObject(catDataModel)
-                .environmentObject(foodEntryModel)
         }
     }
 }
 
 struct InitialView_Previews: PreviewProvider {
     static var previews: some View {
-        InitialView()
+        InitialView(selectedCat: .constant(nil))
+            .environmentObject(CatDataModel())
+            .environmentObject(FoodEntryModel())
     }
 }
+

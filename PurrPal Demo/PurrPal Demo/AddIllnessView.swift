@@ -24,7 +24,7 @@ struct AddIllnessView: View {
                     TextField("หมายเหตุ", text: $notes)
                 }
             }
-            .navigationTitle(editIllness == nil ? "บันทึกอาการผิดปกติ" : "Edit Illness")
+            .navigationTitle(editIllness == nil ? "เพิ่มอาการป่วย" : "Edit Illness")
             .navigationBarItems(leading: Button("ยกเลิก") {
                 presentationMode.wrappedValue.dismiss()
             }, trailing: Button("บันทึก") {

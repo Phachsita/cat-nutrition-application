@@ -2,11 +2,11 @@ import SwiftUI
 
 struct AppointmentView: View {
     @State private var appointments: [Appointment] = [
-        Appointment(date: 12, month: "มกราคม", year: 2566, detail: "ตรวจสุขภาพ", location: "คลินิกเพ็ทโฮม", theme: .orange),
-        Appointment(date: 1, month: "มกราคม", year: 2566, detail: "ฉีดวัคซีน", location: "โรงพยาบาลสัตว์เกษตร", theme: .blue),
-        Appointment(date: 3, month: "มีนาคม", year: 2566, detail: "ติดตามผล", location: "คลินิกเพ็ทโฮม", theme: .red),
-        Appointment(date: 30, month: "ธันวาคม", year: 2566, detail: "ตรวจสุขภาพประจำปี", location: "คลินิกเพ็ทโฮม", theme: .orange),
-        Appointment(date: 12, month: "ธันวาคม", year: 2566, detail: "ฉีดวัคซีน", location: "คลินิกเพ็ทโฮม", theme: .orange)
+//        Appointment(date: 12, month: "มกราคม", year: 2566, detail: "ตรวจสุขภาพ", location: "คลินิกเพ็ทโฮม", theme: .orange),
+//        Appointment(date: 1, month: "มกราคม", year: 2566, detail: "ฉีดวัคซีน", location: "โรงพยาบาลสัตว์เกษตร", theme: .blue),
+//        Appointment(date: 3, month: "มีนาคม", year: 2566, detail: "ติดตามผล", location: "คลินิกเพ็ทโฮม", theme: .red),
+//        Appointment(date: 30, month: "ธันวาคม", year: 2566, detail: "ตรวจสุขภาพประจำปี", location: "คลินิกเพ็ทโฮม", theme: .orange),
+//        Appointment(date: 12, month: "ธันวาคม", year: 2566, detail: "ฉีดวัคซีน", location: "คลินิกเพ็ทโฮม", theme: .orange)
     ]
     @State private var isShowingAddAppointmentForm = false
 
@@ -57,6 +57,7 @@ struct AppointmentView: View {
 struct AddAppointmentForm: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedDate = Date()
+    @State private var selectedTime = Date()
     @State private var detail = ""
     @State private var location = ""
     @State private var theme = Color.orange
@@ -69,6 +70,10 @@ struct AddAppointmentForm: View {
                 Section(header: Text("วันที่")) {
                     DatePicker("เลือกวันที่", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(GraphicalDatePickerStyle())
+                        .environment(\.locale, Locale(identifier: "th_TH"))
+                }
+                Section(header: Text("เวลา")) {
+                    DatePicker("เลือกเวลา", selection: $selectedTime, displayedComponents: .hourAndMinute)
                         .environment(\.locale, Locale(identifier: "th_TH"))
                 }
                 Section(header: Text("รายละเอียด")) {
@@ -84,16 +89,10 @@ struct AddAppointmentForm: View {
             .navigationTitle("เพิ่มนัดหมาย")
             .navigationBarItems(trailing: Button("บันทึก") {
                 let calendar = Calendar(identifier: .buddhist)
-                let components = calendar.dateComponents([.day, .month, .year], from: selectedDate)
-                if let dateInt = components.day, let _ = components.month, let yearInt = components.year {
-                    let formatter = DateFormatter()
-                    formatter.locale = Locale(identifier: "th_TH")
-                    formatter.dateFormat = "MMMM"
-                    let monthString = formatter.string(from: selectedDate)
-                    let newAppointment = Appointment(date: dateInt, month: monthString, year: yearInt, detail: detail, location: location, theme: theme)
-                    onSave(newAppointment)
-                    presentationMode.wrappedValue.dismiss()
-                }
+                let dateTime = Calendar.current.date(bySettingHour: calendar.component(.hour, from: selectedTime), minute: calendar.component(.minute, from: selectedTime), second: 0, of: selectedDate) ?? selectedDate
+                let newAppointment = Appointment(date: dateTime, detail: detail, location: location, theme: theme)
+                onSave(newAppointment)
+                presentationMode.wrappedValue.dismiss()
             })
         }
     }
@@ -101,9 +100,7 @@ struct AddAppointmentForm: View {
 
 struct Appointment: Identifiable {
     let id = UUID()
-    var date: Int
-    var month: String
-    var year: Int
+    var date: Date
     var detail: String
     var location: String
     var theme: Color
@@ -117,13 +114,16 @@ struct AppointmentCardView: View {
             HStack(alignment: .center) {
                 // วันที่
                 VStack {
-                    Text(String(appointment.date))
+                    Text(dayFormatter.string(from: appointment.date))
                         .font(.system(size: 32))
                         .foregroundColor(appointment.theme)
                         .fontWeight(.bold)
-                    Text(appointment.month)
+                    Text(shortMonthFormatter.string(from: appointment.date))
                         .foregroundColor(appointment.theme)
-                    Text(String(appointment.year))
+                    Text(yearFormatter.string(from: appointment.date))
+                        .foregroundColor(appointment.theme)
+                    Text(appointmentTimeFormatter.string(from: appointment.date))
+                        .font(.caption)
                         .foregroundColor(appointment.theme)
                 }
                 .padding()
@@ -159,3 +159,37 @@ struct AppointmentView_Previews: PreviewProvider {
         AppointmentView()
     }
 }
+
+// Formatters
+private let dayFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "th_TH")
+    formatter.dateFormat = "d"
+    formatter.calendar = Calendar(identifier: .buddhist)
+    return formatter
+}()
+
+private let shortMonthFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "th_TH")
+    formatter.dateFormat = "MMM"
+    formatter.calendar = Calendar(identifier: .buddhist)
+    return formatter
+}()
+
+private let yearFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "th_TH")
+    formatter.dateFormat = "yyyy"
+    formatter.calendar = Calendar(identifier: .buddhist)
+    return formatter
+}()
+
+private let appointmentTimeFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "th_TH")
+    formatter.dateStyle = .none
+    formatter.timeStyle = .short
+    formatter.calendar = Calendar(identifier: .buddhist)
+    return formatter
+}()

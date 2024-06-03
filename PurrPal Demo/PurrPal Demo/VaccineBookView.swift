@@ -61,11 +61,18 @@ struct VaccineView: View {
 struct AddVaccineCardForm: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedDate = Date()
-    @State private var detail = ""
+    @State private var selectedVaccine = "วัคซีนป้องกันโรคไข้หัดแมว โรคระบบทางเดินหายใจส่วนต้น ช่องปากและลิ้นอักเสบ"
     @State private var location = ""
     @State private var batch = ""
     @State private var note = ""
     @State private var theme = Color.orange
+    
+    let vaccines = [
+        "วัคซีนป้องกันโรคไข้หัดแมว โรคระบบทางเดินหายใจส่วนต้น ช่องปากและลิ้นอักเสบ",
+        "วัคซีนป้องกันโรคลิวคิเมีย",
+        "วัคซีนป้องกันโรคไข้หัดแมว โรคระบบทางเดินหายใจส่วนต้น ช่องปากและลิ้นอักเสบ และโรคลิวคิเมีย",
+        "โรคพิษสุนัขบ้า"
+    ]
     
     var onSave: (VaccineCard) -> Void
     
@@ -78,7 +85,11 @@ struct AddVaccineCardForm: View {
                         .environment(\.locale, Locale(identifier: "th_TH"))
                 }
                 Section(header: Text("ชื่อวัคซีน")) {
-                    TextField("ชื่อวัคซีน", text: $detail)
+                    Picker("เลือกวัคซีน", selection: $selectedVaccine) {
+                        ForEach(vaccines, id: \.self) { vaccine in
+                            Text(vaccine)
+                        }
+                    }
                 }
                 Section(header: Text("สถานพยาบาล")) {
                     TextField("สถานพยาบาล", text: $location)
@@ -101,7 +112,7 @@ struct AddVaccineCardForm: View {
                     formatter.locale = Locale(identifier: "th_TH")
                     formatter.dateFormat = "MMMM"
                     let monthString = formatter.string(from: selectedDate)
-                    let newCard = VaccineCard(date: dateInt, month: monthString, year: yearInt, detail: detail, location: location, theme: theme, batch: batch, note: note)
+                    let newCard = VaccineCard(date: dateInt, month: monthString, year: yearInt, detail: selectedVaccine, location: location, theme: theme, batch: batch, note: note)
                     onSave(newCard)
                     presentationMode.wrappedValue.dismiss()
                 }

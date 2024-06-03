@@ -16,12 +16,12 @@ struct AddFoodView: View {
 
             Form {
                 Section(header: Text("ยี่ห้อ").font(.headline).padding(.bottom, 5)) {
-                    Picker("Brand", selection: $selectedBrand) {
+                    Picker("ยี่ห้อ", selection: $selectedBrand) {
                         ForEach(Array(Set(allBrandFormulas.map { $0.brand })), id: \.self) { brand in
                             Text(brand).tag(brand as String?)
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())
+                    .pickerStyle(MenuPickerStyle())
                     .frame(height: 100)
                     .padding(.horizontal)
                 }

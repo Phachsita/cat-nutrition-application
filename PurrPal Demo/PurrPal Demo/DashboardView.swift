@@ -53,33 +53,36 @@ struct DashboardView: View {
 
                     // วงกลมแสดงพลังงานสะสมทั้งวัน
                     VStack {
-                        ZStack {
-                            Circle()
-                                .stroke(lineWidth: 20)
-                                .opacity(0.3)
-                                .foregroundColor(.blue)
+                                           ZStack {
+                                               Circle()
+                                                   .stroke(lineWidth: 20)
+                                                   .opacity(0.3)
+                                                   .foregroundColor(.blue)
 
-                            Circle()
-                                .trim(from: 0.0, to: CGFloat(min(Double(foodEntryModel.totalCalories) / maxCalories, 1.0)))
-                                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
-                                .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .blue)
-                                .rotationEffect(Angle(degrees: -90))
-                                .animation(.linear, value: foodEntryModel.totalCalories)
+                                               Circle()
+                                                   .trim(from: 0.0, to: CGFloat(min(Double(foodEntryModel.totalCalories) / maxCalories, 1.0)))
+                                                   .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                                                   .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
+                                                   .rotationEffect(Angle(degrees: -90))
+                                                   .animation(.linear, value: foodEntryModel.totalCalories)
 
-                            VStack {
-                                Text("\(foodEntryModel.totalCalories, specifier: "%.0f")/\(Int(maxCalories)) แคล")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .blue)
-                                Text("พลังงานสะสมทั้งวัน")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .frame(width: 200, height: 200)
-                        .padding()
-                    }
-                    .padding(.bottom)
+                                               VStack {
+                                                   Text("\(foodEntryModel.totalCalories, specifier: "%.0f")/\(Int(maxCalories))")
+                                                       .font(.title)
+                                                       .fontWeight(.bold)
+                                                       .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
+                                                   Text("กิโลแคลอรี")
+                                                       .font(.body)
+                                                       .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
+                                                   Text("พลังงานสะสมทั้งวัน")
+                                                       .font(.subheadline)
+                                                       .foregroundColor(.gray)
+                                               }
+                                           }
+                                           .frame(width: 200, height: 200)
+                                           .padding()
+                                       }
+                                       .padding(.bottom)
 
                     // การนัดหมายที่ใกล้ที่สุด
                     VStack(alignment: .leading, spacing: 10) {
@@ -91,7 +94,7 @@ struct DashboardView: View {
                             HStack {
                                 Image(systemName: "calendar")
                                     .foregroundColor(.blue)
-                                Text("ทำวัคซีนไข้หวัดหัดแมว, 05/06/2567")
+                                Text("ตรวจสอบนัดหมายที่นี่")
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                             }

@@ -68,8 +68,8 @@ struct AddCatProfileView: View {
                             }
                         }
                     }
-                    Section(header: Text("น้ำหนัก (กิโลกรัม)")) {
-                        TextField("น้ำหนัก (กิโลกรัม)", text: $weight)
+                    Section(header: Text("น้ำหนัก")) {
+                        TextField("กิโลกรัม", text: $weight)
                             .keyboardType(.decimalPad)
                     }
                 }

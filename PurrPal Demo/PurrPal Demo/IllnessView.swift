@@ -4,8 +4,8 @@ struct IllnessView: View {
     @State private var showAddIllnessForm = false
     @State private var showEditIllnessForm = false
     @State private var illnesses: [Illness] = [
-        Illness(description: "มีไข้", date: Date().addingTimeInterval(-86400), notes: "อุณหภูมิสูงและไม่มีแรง"), // ตัวอย่างข้อมูลย้อนหลัง 1 วัน
-        Illness(description: "อาเจียน", date: Date(), notes: "อาเจียนสองครั้งหลังจากกิน")
+//        Illness(description: "มีไข้", date: Date().addingTimeInterval(-86400), notes: "อุณหภูมิสูงและไม่มีแรง"), // ตัวอย่างข้อมูลย้อนหลัง 1 วัน
+//        Illness(description: "อาเจียน", date: Date(), notes: "อาเจียนสองครั้งหลังจากกิน")
     ]
     @State private var selectedIllness: Illness?
 
