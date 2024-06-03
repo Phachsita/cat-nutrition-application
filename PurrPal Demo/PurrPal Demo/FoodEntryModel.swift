@@ -4,23 +4,24 @@ import Combine
 
 class FoodEntryModel: ObservableObject {
     @Published var foodEntries: [FoodEntry] = []
-
-    var totalCalories: Int {
-        foodEntries.reduce(0) { $0 + $1.calories }
-    }
-
+    @Published var totalCalories: Double = 0.0
+    
+    private var cancellables = Set<AnyCancellable>()
+    
     init() {
-        self.foodEntries = [
-            FoodEntry(brand: "ROYAL CANIN", formula: "Kitten", calories: 400, date: Date()),
-            FoodEntry(brand: "Me-O", formula: "Adult", calories: 350, date: Date().addingTimeInterval(-86400)) // 1 day ago
-        ]
+        $foodEntries
+            .map { entries in
+                entries.reduce(0) { $0 + Double($1.calories) }
+            }
+            .assign(to: \.totalCalories, on: self)
+            .store(in: &cancellables)
     }
 }
 
 struct FoodEntry: Identifiable {
-    let id = UUID()
-    let brand: String
-    let formula: String
-    let calories: Int
-    let date: Date
+    var id = UUID()
+    var brand: String
+    var formula: String
+    var calories: Int
+    var date: Date
 }

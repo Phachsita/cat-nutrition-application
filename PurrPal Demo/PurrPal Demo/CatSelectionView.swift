@@ -9,20 +9,15 @@ struct CatProfileSelectionView: View {
         NavigationView {
             VStack {
                 if catData.catProfiles.isEmpty {
-                    Text("No cat profiles available. Please create one.")
+                    Text("ยังไม่มีโปรไฟล์แมว")
                         .padding()
                 } else {
                     List(catData.catProfiles) { profile in
-                        HStack {
-                            CatProfileRow(profile: profile)
-                            Spacer()
-                            Button(action: {
+                        CatProfileRow(profile: profile)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
                                 selectedCat = profile
-                            }) {
-                                Image(systemName: "checkmark.circle")
                             }
-                            .buttonStyle(BorderlessButtonStyle())
-                        }
                     }
                     .listStyle(PlainListStyle())
                 }

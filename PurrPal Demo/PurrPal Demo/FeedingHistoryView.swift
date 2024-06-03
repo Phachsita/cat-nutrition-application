@@ -99,10 +99,8 @@ struct FoodEntryView: View {
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(8)
-        .shadow(color: Color.gray.opacity(0.3), radius: 4, x: 0, y: 2)
+
+
     }
 }
 

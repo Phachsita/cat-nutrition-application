@@ -9,9 +9,11 @@ struct AddCatProfileView: View {
     @State private var gender: String = "ตัวผู้"
     @State private var neutered: Bool = false
     @State private var birthdate: Date = Date()
-    @State private var breed: String = ""
+    @State private var breed: String = "ไทย"
     @State private var weight: String = ""
     @State private var showingImagePicker = false
+
+    let catBreeds = ["ไทย", "เปอร์เซีย", "สก็อตติช โฟลด์", "เมนคูน", "เบงกอล", "แร็กดอลล์", "บริติช ชอร์ตแฮร์", "อเมริกัน ชอร์ตแฮร์", "รัสเซียน บลู", "สยามนิส"]
     
     var body: some View {
         NavigationView {
@@ -27,17 +29,22 @@ struct AddCatProfileView: View {
                                     showingImagePicker = true
                                 }
                         } else {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                                .onTapGesture {
-                                    showingImagePicker = true
-                                }
+                            HStack{
+                                Spacer()
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .frame(width: 60, height: 60)
+                                    .foregroundColor(.gray)
+                                    .clipShape(Circle())
+                                    .onTapGesture {
+                                        showingImagePicker = true
+                                    }
+                                Spacer()
+                            }
                         }
                     }
-                    Section(header: Text("Name")) {
-                        TextField("Name", text: $name)
+                    Section(header: Text("ชื่อ")) {
+                        TextField("ชื่อ", text: $name)
                     }
                     Section(header: Text("เพศ")) {
                         Picker("เพศ", selection: $gender) {
@@ -51,12 +58,18 @@ struct AddCatProfileView: View {
                     }
                     Section(header: Text("วันเกิด")) {
                         DatePicker("วันเกิด", selection: $birthdate, displayedComponents: .date)
+                            .environment(\.locale, Locale(identifier: "th_TH"))
+                            .environment(\.calendar, Calendar(identifier: .buddhist))
                     }
                     Section(header: Text("สายพันธุ์")) {
-                        TextField("สายพันธุ์", text: $breed)
+                        Picker("สายพันธุ์", selection: $breed) {
+                            ForEach(catBreeds, id: \.self) { breed in
+                                Text(breed).tag(breed)
+                            }
+                        }
                     }
-                    Section(header: Text("นำ้หนัก (กิโลกรัม)")) {
-                        TextField("นำ้หนัก (กิโลกรัม)", text: $weight)
+                    Section(header: Text("น้ำหนัก (กิโลกรัม)")) {
+                        TextField("น้ำหนัก (กิโลกรัม)", text: $weight)
                             .keyboardType(.decimalPad)
                     }
                 }

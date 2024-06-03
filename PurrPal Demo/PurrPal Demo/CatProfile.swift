@@ -8,13 +8,15 @@ struct CatProfile: Identifiable {
     let neutered: Bool
     let birthdate: Date
     let breed: String
-    let weight: Double
+    var weight: Double
     let profilePic: Data?
 
-    var age: Int {
+    var age: String {
         let calendar = Calendar.current
         let now = Date()
-        let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
-        return ageComponents.year!
+        let ageComponents = calendar.dateComponents([.year, .month], from: birthdate, to: now)
+        let years = ageComponents.year ?? 0
+        let months = ageComponents.month ?? 0
+        return "\(years) ปี \(months) เดือน"
     }
 }

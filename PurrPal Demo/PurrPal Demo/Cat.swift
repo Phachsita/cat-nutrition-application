@@ -14,8 +14,8 @@ struct Cat: Identifiable {
 
 class CatDataModel: ObservableObject {
     @Published var catProfiles: [CatProfile] = []
-    @Published var selectedCat: CatProfile?
 }
+
 
 
 

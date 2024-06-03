@@ -2,23 +2,38 @@ import SwiftUI
 
 @main
 struct PurrPal_DemoApp: App {
-    @StateObject private var foodEntryModel = FoodEntryModel()
-    @StateObject private var catDataModel = CatDataModel()
     @State private var selectedCat: CatProfile? = nil
 
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                ContentView(selectedCat: .constant(CatProfile(
-                    name: "ฝุ่น",
-                    gender: "ตัวผู้",
-                    neutered: true,
-                    birthdate: Date(),
-                    breed: "สยามนิส",
-                    weight: 4.5,
-                    profilePic: nil
-                )))
-            }
+            InitialView()
         }
+    }
+}
+
+
+
+
+struct InitialView: View {
+    @StateObject private var foodEntryModel = FoodEntryModel()
+    @StateObject private var catDataModel = CatDataModel()
+    @State private var selectedCat: CatProfile? = nil
+
+    var body: some View {
+        if selectedCat == nil {
+            CatProfileSelectionView(selectedCat: $selectedCat)
+                .environmentObject(catDataModel)
+                .environmentObject(foodEntryModel)
+        } else {
+            ContentView(selectedCat: $selectedCat)
+                .environmentObject(catDataModel)
+                .environmentObject(foodEntryModel)
+        }
+    }
+}
+
+struct InitialView_Previews: PreviewProvider {
+    static var previews: some View {
+        InitialView()
     }
 }

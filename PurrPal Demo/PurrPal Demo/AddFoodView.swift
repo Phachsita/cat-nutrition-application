@@ -13,7 +13,7 @@ struct AddFoodView: View {
             Text("เลือกอาหาร")
                 .font(.title2)
                 .padding(.top, 20)
-            
+
             Form {
                 Section(header: Text("ยี่ห้อ").font(.headline).padding(.bottom, 5)) {
                     Picker("Brand", selection: $selectedBrand) {
@@ -25,7 +25,7 @@ struct AddFoodView: View {
                     .frame(height: 100)
                     .padding(.horizontal)
                 }
-                
+
                 if let brand = selectedBrand {
                     Section() {
                         HStack {
@@ -43,20 +43,20 @@ struct AddFoodView: View {
                             .frame(maxWidth: .infinity, alignment: .center)
                         }
                         .padding(.horizontal)
-                        
+
                         if let brandFormula = selectedFormula {
                             if let url = URL(string: brandFormula.imageUrl) {
                                 AsyncImage(url: url) { image in
                                     image.resizable()
-                                         .aspectRatio(contentMode: .fit)
-                                         .frame(height: 150)
-                                         .frame(maxWidth: .infinity)
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(height: 150)
+                                        .frame(maxWidth: .infinity)
                                 } placeholder: {
                                     ProgressView()
                                 }
                                 .frame(maxWidth: .infinity)
                             }
-                            
+
                             Section() {
                                 HStack {
                                     Text("ปริมาณ: ")
@@ -67,7 +67,7 @@ struct AddFoodView: View {
                                         .frame(maxWidth: .infinity)
                                 }
                                 .padding(.horizontal)
-                                
+
                                 Button(action: {
                                     if let quantityValue = Double(quantity) {
                                         let newFoodEntry = FoodEntry(

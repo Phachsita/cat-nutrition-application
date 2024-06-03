@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var foodEntryModel = FoodEntryModel()
-    @StateObject private var vaccineCardModel = VaccineCardModel()
     @Binding var selectedCat: CatProfile?
 
     var body: some View {
@@ -15,7 +14,6 @@ struct ContentView: View {
                         Text("หน้าหลัก")
                     }
                     .environmentObject(foodEntryModel)
-                    .environmentObject(vaccineCardModel)
                 
                 // Feed View
                 FeedView()
@@ -31,7 +29,6 @@ struct ContentView: View {
                         Image(systemName: "book.fill")
                         Text("สมุดวัคซีน")
                     }
-                    .environmentObject(vaccineCardModel)
                 
                 // Illness View
                 IllnessView()
@@ -44,18 +41,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView(selectedCat: .constant(CatProfile(
-            name: "ฝุ่น",
-            gender: "ตัวผู้",
-            neutered: true,
-            birthdate: Date(),
-            breed: "สยามนิส",
-            weight: 4.5,
-            profilePic: nil
-        )))
-            .environmentObject(FoodEntryModel())
-            .environmentObject(VaccineCardModel())
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

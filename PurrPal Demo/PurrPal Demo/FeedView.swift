@@ -8,16 +8,18 @@ struct FeedView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                
+                Text("ให้อาหาร")
+                    .font(.largeTitle)
+                    .bold()
+                    .padding()
+
+                Spacer()
+
                 if foodEntryModel.foodEntries.isEmpty {
-                    VStack {
+                    HStack {
                         Spacer()
-                        HStack {
-                            Spacer()
-                            Text("ไม่พบข้อมูล")
-                                .foregroundColor(.gray)
-                            Spacer()
-                        }
+                        Text("ไม่พบข้อมูล")
+                            .foregroundColor(.gray)
                         Spacer()
                     }
                 } else {
@@ -42,9 +44,9 @@ struct FeedView: View {
                     }
                     .listStyle(PlainListStyle())
                 }
-                
+
                 Spacer()
-                
+
                 NavigationLink(destination: FeedingHistoryView(foodEntries: $foodEntryModel.foodEntries)) {
                     HStack {
                         Spacer()
@@ -58,7 +60,7 @@ struct FeedView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal)
-                
+
                 Button(action: {
                     showAddFoodForm = true
                 }) {
@@ -75,8 +77,9 @@ struct FeedView: View {
                 }
                 .sheet(isPresented: $showAddFoodForm) {
                     AddFoodView(foodEntries: $foodEntryModel.foodEntries)
+                        .environmentObject(foodEntryModel)
                 }
-            }.navigationTitle("ให้อาหาร")
+            }
         }
     }
 
@@ -88,15 +91,17 @@ struct FeedView: View {
 extension DateFormatter {
     static let feedDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: "th_TH")
+        formatter.calendar = Calendar(identifier: .buddhist)
+        formatter.dateFormat = "dd/MM/yyyy"
         return formatter
     }()
-    
+
     static let feedTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateStyle = .none
-        formatter.timeStyle = .short
+        formatter.locale = Locale(identifier: "th_TH")
+        formatter.calendar = Calendar(identifier: .buddhist)
+        formatter.dateFormat = "HH:mm น."
         return formatter
     }()
 }

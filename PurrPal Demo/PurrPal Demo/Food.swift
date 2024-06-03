@@ -182,3 +182,4 @@ struct BrandFormula: Hashable {
     let calories: Double
     let imageUrl: String
 }
+

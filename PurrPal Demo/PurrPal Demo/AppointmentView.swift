@@ -17,7 +17,7 @@ struct AppointmentView: View {
                     VStack {
                         Spacer()
                         Text("ไม่พบข้อมูล")
-                            .font(.title)
+                            .font(.body)
                             .foregroundColor(.gray)
                         Spacer()
                     }

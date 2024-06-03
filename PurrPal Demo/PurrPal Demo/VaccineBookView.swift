@@ -7,9 +7,22 @@ struct VaccineView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                ScrollView {
-                    ForEach(vaccineCards) { card in
-                        VaccineCardView(card: card)
+                if vaccineCards.isEmpty {
+                    VStack { Spacer()
+                        HStack {
+                            Spacer()
+                            Text("ไม่พบข้อมูล")
+                                .foregroundColor(.gray)
+                                .padding()
+                            Spacer()
+                        }
+                        Spacer()
+                    }
+                } else {
+                    ScrollView {
+                        ForEach(vaccineCards) { card in
+                            VaccineCardView(card: card)
+                        }
                     }
                 }
                 
@@ -45,8 +58,6 @@ struct VaccineView: View {
     }
 }
 
-
-
 struct AddVaccineCardForm: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var selectedDate = Date()
@@ -78,9 +89,6 @@ struct AddVaccineCardForm: View {
                 Section(header: Text("หมายเหตุ")) {
                     TextField("หมายเหตุ", text: $note)
                 }
-//                Section(header: Text("สีของธีม")) {
-//                    ColorPicker("เลือกสี", selection: $theme)
-//                }
             }
             .navigationTitle("เพิ่มวัคซีน")
             .navigationBarItems(leading: Button("ยกเลิก") {
@@ -167,7 +175,6 @@ struct VaccineCardView: View {
         .frame(height: 150) // Set the height of the card
     }
 }
-
 
 struct VaccineView_Previews: PreviewProvider {
     static var previews: some View {
