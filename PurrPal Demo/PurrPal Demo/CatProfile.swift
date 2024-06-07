@@ -19,4 +19,11 @@ struct CatProfile: Identifiable {
         let months = ageComponents.month ?? 0
         return "\(years) ปี \(months) เดือน"
     }
+    
+    var ageInYears: Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
+        return ageComponents.year ?? 0
+    }
 }

@@ -9,10 +9,14 @@ struct DashboardView: View {
 
     var maxCalories: Double {
         if let cat = selectedCat {
-            return 70 * pow(cat.weight, 0.75) // Adult cat DER formula
-        }
-        return 1000 // Default max calories
-    }
+                    if cat.ageInYears > 1 { // Age is in months, 12 months = 1 year
+                        return (70 * pow(cat.weight, 0.75)) * 1.2 // Adult cat DER formula
+                    } else {
+                        return (70 * pow(cat.weight, 0.75)) * 2.5 // Kitten DER formula
+                    }
+                }
+                return 1000 // Default max calories
+            }
 
     var body: some View {
         NavigationView {
@@ -225,11 +229,18 @@ struct DashboardView_Previews: PreviewProvider {
             name: "ฝุ่น",
             gender: "ตัวผู้",
             neutered: true,
-            birthdate: Date(),
+            birthdate: createDate(from: "01/01/2566"),
             breed: "สยามนิส",
-            weight: 4.5,
+            weight: 1,
             profilePic: nil
         )))
         .environmentObject(FoodEntryModel())
     }
+}
+
+
+func createDate(from dateString: String) -> Date {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "dd/MM/yyyy"
+    return dateFormatter.date(from: dateString) ?? Date()
 }
