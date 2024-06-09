@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CoreDate_Appointment" representedClassName="CoreDate_Appointment" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="cat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Cat" inverseName="appointment" inverseEntity="CoreDate_Cat"/>
+    </entity>
+    <entity name="CoreDate_Cat" representedClassName="CoreDate_Cat" syncable="YES" codeGenerationType="class">
+        <attribute name="birthdate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="breed" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="nuetered" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="profilePic" optional="YES" attributeType="Binary"/>
+        <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="appointment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Appointment" inverseName="cat" inverseEntity="CoreDate_Appointment"/>
+        <relationship name="illness" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Illness" inverseName="cat" inverseEntity="CoreDate_Illness"/>
+        <relationship name="meal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Meal" inverseName="cat" inverseEntity="CoreDate_Meal"/>
+        <relationship name="vaccine" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Vaccine" inverseName="cat" inverseEntity="CoreDate_Vaccine"/>
+    </entity>
+    <entity name="CoreDate_Food" representedClassName="CoreDate_Food" syncable="YES" codeGenerationType="class">
+        <attribute name="brand" optional="YES" attributeType="String"/>
+        <attribute name="calories" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="formula" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="meal" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Meal" inverseName="foodd" inverseEntity="CoreDate_Meal"/>
+    </entity>
+    <entity name="CoreDate_Illness" representedClassName="CoreDate_Illness" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <relationship name="cat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Cat" inverseName="illness" inverseEntity="CoreDate_Cat"/>
+    </entity>
+    <entity name="CoreDate_Meal" representedClassName="CoreDate_Meal" syncable="YES" codeGenerationType="class">
+        <attribute name="calories" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="food" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="cat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Cat" inverseName="meal" inverseEntity="CoreDate_Cat"/>
+        <relationship name="foodd" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Food" inverseName="meal" inverseEntity="CoreDate_Food"/>
+    </entity>
+    <entity name="CoreDate_Vaccine" representedClassName="CoreDate_Vaccine" syncable="YES" codeGenerationType="class">
+        <attribute name="batch" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="location" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="note" optional="YES" attributeType="String"/>
+        <relationship name="cat" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CoreDate_Cat" inverseName="vaccine" inverseEntity="CoreDate_Cat"/>
+    </entity>
+</model>
