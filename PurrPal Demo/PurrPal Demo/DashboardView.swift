@@ -1,22 +1,23 @@
 import SwiftUI
 
 struct DashboardView: View {
-    @EnvironmentObject var foodEntryModel: FoodEntryModel
     @Binding var selectedCat: CatProfile?
+
+    @EnvironmentObject var foodEntryModel: FoodEntryModel
     @State private var showCatProfileSelection = false
     @State private var showEditWeightForm = false
     @State private var newWeight: String = ""
 
     var maxCalories: Double {
         if let cat = selectedCat {
-                    if cat.ageInYears > 1 { // Age is in months, 12 months = 1 year
-                        return (70 * pow(cat.weight, 0.75)) * 1.2 // Adult cat DER formula
-                    } else {
-                        return (70 * pow(cat.weight, 0.75)) * 2.5 // Kitten DER formula
-                    }
-                }
-                return 1000 // Default max calories
+            if cat.Catage > 1 {
+                return (70 * pow(cat.weight, 0.75)) * 1.2
+            } else {
+                return (70 * pow(cat.weight, 0.75)) * 2.5
             }
+        }
+        return 1000
+    }
 
     var body: some View {
         NavigationView {
@@ -41,7 +42,6 @@ struct DashboardView: View {
                                 Text(cat.name)
                                     .font(.title)
                                     .fontWeight(.bold)
-
                             }
                         }
                         Spacer()
@@ -55,40 +55,38 @@ struct DashboardView: View {
                     }
                     .padding([.top, .horizontal])
 
-                    // วงกลมแสดงพลังงานสะสมทั้งวัน
                     VStack {
-                                           ZStack {
-                                               Circle()
-                                                   .stroke(lineWidth: 20)
-                                                   .opacity(0.3)
-                                                   .foregroundColor(.blue)
+                        ZStack {
+                            Circle()
+                                .stroke(lineWidth: 20)
+                                .opacity(0.3)
+                                .foregroundColor(.blue)
 
-                                               Circle()
-                                                   .trim(from: 0.0, to: CGFloat(min(Double(foodEntryModel.totalCalories) / maxCalories, 1.0)))
-                                                   .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
-                                                   .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
-                                                   .rotationEffect(Angle(degrees: -90))
-                                                   .animation(.linear, value: foodEntryModel.totalCalories)
+                            Circle()
+                                .trim(from: 0.0, to: CGFloat(min(Double(foodEntryModel.totalCalories) / maxCalories, 1.0)))
+                                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                                .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
+                                .rotationEffect(Angle(degrees: -90))
+                                .animation(.linear, value: foodEntryModel.totalCalories)
 
-                                               VStack {
-                                                   Text("\(foodEntryModel.totalCalories, specifier: "%.0f")/\(Int(maxCalories))")
-                                                       .font(.title)
-                                                       .fontWeight(.bold)
-                                                       .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
-                                                   Text("กิโลแคลอรี")
-                                                       .font(.body)
-                                                       .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
-                                                   Text("พลังงานสะสมทั้งวัน")
-                                                       .font(.subheadline)
-                                                       .foregroundColor(.gray)
-                                               }
-                                           }
-                                           .frame(width: 200, height: 200)
-                                           .padding()
-                                       }
-                                       .padding(.bottom)
+                            VStack {
+                                Text("\(foodEntryModel.totalCalories, specifier: "%.0f")/\(Int(maxCalories))")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
+                                Text("กิโลแคลอรี")
+                                    .font(.body)
+                                    .foregroundColor(Int(foodEntryModel.totalCalories) > Int(maxCalories) ? .red : .orange)
+                                Text("พลังงานสะสมทั้งวัน")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .frame(width: 200, height: 200)
+                        .padding()
+                    }
+                    .padding(.bottom)
 
-                    // การนัดหมายที่ใกล้ที่สุด
                     VStack(alignment: .leading, spacing: 10) {
                         Text("การนัดหมายที่ใกล้ที่สุด")
                             .font(.headline)
@@ -111,7 +109,6 @@ struct DashboardView: View {
                     .padding(.horizontal)
                     .padding(.bottom, 10)
 
-                    // ข้อมูลพื้นฐานของแมว
                     VStack(alignment: .leading, spacing: 10) {
                         Text("ข้อมูลพื้นฐานของแมว")
                             .font(.headline)
@@ -129,7 +126,6 @@ struct DashboardView: View {
                     .padding(.horizontal)
                     .padding(.bottom, 10)
                     
-                    // การ์ดน้ำหนัก
                     VStack(alignment: .leading, spacing: 10) {
                         Text("น้ำหนัก")
                             .font(.headline)
@@ -162,10 +158,10 @@ struct DashboardView: View {
                     Spacer()
                 }
             }
-        }
-        .sheet(isPresented: $showCatProfileSelection) {
-            CatProfileSelectionView(selectedCat: $selectedCat)
-                .environmentObject(CatDataModel())
+            .sheet(isPresented: $showCatProfileSelection) {
+                CatProfileSelectionView(selectedCat: $selectedCat)
+                    .environmentObject(CatDataModel())
+            }
         }
     }
 }
@@ -237,7 +233,6 @@ struct DashboardView_Previews: PreviewProvider {
         .environmentObject(FoodEntryModel())
     }
 }
-
 
 func createDate(from dateString: String) -> Date {
     let dateFormatter = DateFormatter()

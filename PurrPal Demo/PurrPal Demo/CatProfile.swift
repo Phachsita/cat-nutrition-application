@@ -1,16 +1,17 @@
 import Foundation
 import SwiftUI
 
-struct CatProfile: Identifiable {
-    let id = UUID()
-    let name: String
-    let gender: String
-    let neutered: Bool
-    let birthdate: Date
-    let breed: String
+struct CatProfile: Codable, Identifiable {
+    var id = UUID()
+    var name: String
+    var gender: String
+    var neutered: Bool
+    var birthdate: Date
+    var breed: String
     var weight: Double
-    let profilePic: Data?
-
+    var profilePic: Data?
+    
+    
     var age: String {
         let calendar = Calendar.current
         let now = Date()
@@ -26,4 +27,14 @@ struct CatProfile: Identifiable {
         let ageComponents = calendar.dateComponents([.year], from: birthdate, to: now)
         return ageComponents.year ?? 0
     }
+    
+    
+    var Catage: Int {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year], from: birthdate, to: Date())
+        return components.year ?? 0
+    }
+    
 }
+
+    

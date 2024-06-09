@@ -3,12 +3,19 @@ import SwiftUI
 @main
 struct PurrPal_DemoApp: App {
     @State private var selectedCat: CatProfile? = nil
+    @StateObject private var profileManager = CatProfileManager()
+    @StateObject private var catData = CatDataModel()
+    @StateObject private var appointmentViewModel = AppointmentViewModel()
+    @StateObject private var foodEntryModel = FoodEntryModel()
+    @State private var showingAddCatProfileView = false
 
     var body: some Scene {
         WindowGroup {
             InitialView(selectedCat: $selectedCat)
-                .environmentObject(CatDataModel())
-                .environmentObject(FoodEntryModel())
+                .environmentObject(catData)
+                .environmentObject(profileManager)
+                .environmentObject(appointmentViewModel)
+                .environmentObject(foodEntryModel)
         }
     }
 }
@@ -32,6 +39,7 @@ struct InitialView_Previews: PreviewProvider {
         InitialView(selectedCat: .constant(nil))
             .environmentObject(CatDataModel())
             .environmentObject(FoodEntryModel())
+            .environmentObject(AppointmentViewModel())
+            .environmentObject(CatProfileManager())
     }
 }
-

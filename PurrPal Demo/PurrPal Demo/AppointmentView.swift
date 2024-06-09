@@ -1,19 +1,13 @@
 import SwiftUI
 
 struct AppointmentView: View {
-    @State private var appointments: [Appointment] = [
-//        Appointment(date: 12, month: "มกราคม", year: 2566, detail: "ตรวจสุขภาพ", location: "คลินิกเพ็ทโฮม", theme: .orange),
-//        Appointment(date: 1, month: "มกราคม", year: 2566, detail: "ฉีดวัคซีน", location: "โรงพยาบาลสัตว์เกษตร", theme: .blue),
-//        Appointment(date: 3, month: "มีนาคม", year: 2566, detail: "ติดตามผล", location: "คลินิกเพ็ทโฮม", theme: .red),
-//        Appointment(date: 30, month: "ธันวาคม", year: 2566, detail: "ตรวจสุขภาพประจำปี", location: "คลินิกเพ็ทโฮม", theme: .orange),
-//        Appointment(date: 12, month: "ธันวาคม", year: 2566, detail: "ฉีดวัคซีน", location: "คลินิกเพ็ทโฮม", theme: .orange)
-    ]
+    @EnvironmentObject var appointmentViewModel: AppointmentViewModel
     @State private var isShowingAddAppointmentForm = false
 
     var body: some View {
         NavigationView {
             VStack(alignment: .leading) {
-                if appointments.isEmpty {
+                if appointmentViewModel.appointments.isEmpty {
                     VStack {
                         Spacer()
                         Text("ไม่พบข้อมูล")
@@ -23,7 +17,7 @@ struct AppointmentView: View {
                     }
                 } else {
                     List {
-                        ForEach(appointments) { appointment in
+                        ForEach(appointmentViewModel.appointments) { appointment in
                             AppointmentCardView(appointment: appointment)
                         }
                         .onDelete(perform: deleteItems)
@@ -42,27 +36,26 @@ struct AppointmentView: View {
                     .foregroundColor(.orange)
             })
             .sheet(isPresented: $isShowingAddAppointmentForm) {
-                AddAppointmentForm { newAppointment in
-                    appointments.append(newAppointment)
-                }
+                AddAppointmentForm()
+                    .environmentObject(appointmentViewModel)
             }
         }
     }
 
     private func deleteItems(at offsets: IndexSet) {
-        appointments.remove(atOffsets: offsets)
+        appointmentViewModel.appointments.remove(atOffsets: offsets)
     }
 }
 
 struct AddAppointmentForm: View {
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var appointmentViewModel: AppointmentViewModel
+
     @State private var selectedDate = Date()
     @State private var selectedTime = Date()
     @State private var detail = ""
     @State private var location = ""
     @State private var theme = Color.orange
-
-    var onSave: (Appointment) -> Void
 
     var body: some View {
         NavigationView {
@@ -90,8 +83,7 @@ struct AddAppointmentForm: View {
             .navigationBarItems(trailing: Button("บันทึก") {
                 let calendar = Calendar(identifier: .buddhist)
                 let dateTime = Calendar.current.date(bySettingHour: calendar.component(.hour, from: selectedTime), minute: calendar.component(.minute, from: selectedTime), second: 0, of: selectedDate) ?? selectedDate
-                let newAppointment = Appointment(date: dateTime, detail: detail, location: location, theme: theme)
-                onSave(newAppointment)
+                appointmentViewModel.addAppointment(date: dateTime, detail: detail, location: location, theme: theme)
                 presentationMode.wrappedValue.dismiss()
             })
         }
@@ -157,6 +149,7 @@ struct AppointmentCardView: View {
 struct AppointmentView_Previews: PreviewProvider {
     static var previews: some View {
         AppointmentView()
+            .environmentObject(AppointmentViewModel())
     }
 }
 
@@ -193,3 +186,15 @@ private let appointmentTimeFormatter: DateFormatter = {
     formatter.calendar = Calendar(identifier: .buddhist)
     return formatter
 }()
+
+
+import Combine
+
+class AppointmentViewModel: ObservableObject {
+    @Published var appointments: [Appointment] = []
+
+    func addAppointment(date: Date, detail: String, location: String, theme: Color) {
+        let newAppointment = Appointment(date: date, detail: detail, location: location, theme: theme)
+        appointments.append(newAppointment)
+    }
+}

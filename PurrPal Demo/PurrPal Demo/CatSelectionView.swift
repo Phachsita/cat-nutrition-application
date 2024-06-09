@@ -1,74 +1,67 @@
 import SwiftUI
 
 struct CatProfileSelectionView: View {
-    @EnvironmentObject var catData: CatDataModel
-    @Binding var selectedCat: CatProfile?
+    @StateObject var catData = CatDataModel()
     @State private var showingAddCatProfileView = false
-    @State private var showingEditCatProfileView = false
-    @State private var profileToEdit: CatProfile?
-    
+    @Binding var selectedCat: CatProfile?
+
     var body: some View {
         NavigationView {
             VStack {
-                if catData.catProfiles.isEmpty {
-                    VStack {Spacer()
-                        Text("ยังไม่มีโปรไฟล์แมว")
-                            .padding()
-                        Spacer()
-                    }
-                } else {
-                    List {
-                        ForEach(catData.catProfiles) { profile in
+                List {
+                    ForEach(catData.catProfiles) { profile in
+                        NavigationLink(destination: DashboardView(selectedCat: $selectedCat).onAppear {
+                            selectedCat = profile
+                        }) {
                             HStack {
-                                CatProfileRow(profile: profile)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        selectedCat = profile
-                                    }
-                                Spacer()
-                                Button(action: {
-                                    profileToEdit = profile
-                                    showingEditCatProfileView = true
-                                }) {
-                                    Image(systemName: "pencil")
-                                        .foregroundColor(.blue)
+                                if let imageData = profile.profilePic, let uiImage = UIImage(data: imageData) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
+                                } else {
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .clipShape(Circle())
                                 }
-                                .buttonStyle(BorderlessButtonStyle())
+                                VStack(alignment: .leading) {
+                                    Text(profile.name)
+                                        .font(.headline)
+                                    Text(profile.breed)
+                                        .font(.subheadline)
+                                }
                             }
                         }
-                        .onDelete(perform: deleteProfile)
                     }
-                    .listStyle(PlainListStyle())
+                    .onDelete(perform: deleteProfile)
                 }
-                Spacer()
                 Button(action: {
                     showingAddCatProfileView = true
                 }) {
-                    Text("เพิ่มแมว")
+                    Text("เพิ่มโปรไฟล์")
                         .frame(maxWidth: .infinity, maxHeight: 50)
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
                         .padding()
                 }
+                .sheet(isPresented: $showingAddCatProfileView) {
+                    AddCatProfileView(catProfiles: $catData.catProfiles)
+                }
             }
             .navigationTitle("เลือกแมว")
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $showingAddCatProfileView) {
-                AddCatProfileView(catProfiles: $catData.catProfiles)
-            }
-            .sheet(isPresented: $showingEditCatProfileView) {
-                if let profileToEdit = profileToEdit {
-                    EditCatProfileView(profile: profileToEdit, catProfiles: $catData.catProfiles)
-                }
-            }
         }
     }
 
     private func deleteProfile(at offsets: IndexSet) {
         catData.catProfiles.remove(atOffsets: offsets)
+        catData.saveProfiles()
     }
 }
+
+
 
 struct EditCatProfileView: View {
     @Environment(\.presentationMode) var presentationMode

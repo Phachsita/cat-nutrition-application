@@ -13,7 +13,7 @@ struct AddCatProfileView: View {
     @State private var weight: String = ""
     @State private var showingImagePicker = false
 
-    let catBreeds = ["ไทย", "เปอร์เซีย", "สก็อตติช โฟลด์", "เมนคูน", "เบงกอล", "แร็กดอลล์", "บริติช ชอร์ตแฮร์", "อเมริกัน ชอร์ตแฮร์", "รัสเซียน บลู", "สยามนิส"]
+    let catBreeds = ["ไทย", "เปอร์เซีย", "สก็อตติชโฟลด์", "เมนคูน", "เบงกอล", "แร็กดอลล์", "บริติชชอร์ตแฮร์", "อเมริกันชอร์ตแฮร์", "รัสเซียนบลู", "สยามนิส"]
     
     var body: some View {
         NavigationView {
@@ -29,7 +29,7 @@ struct AddCatProfileView: View {
                                     showingImagePicker = true
                                 }
                         } else {
-                            HStack{
+                            HStack {
                                 Spacer()
                                 Image(systemName: "plus")
                                     .resizable()
