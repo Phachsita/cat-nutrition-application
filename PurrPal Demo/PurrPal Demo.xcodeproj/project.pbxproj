@@ -10,6 +10,8 @@
 		5268B3942C0C0DAC009216C6 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5268B3932C0C0DAC009216C6 /* LoginView.swift */; };
 		5268B3962C0C1068009216C6 /* CatProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5268B3952C0C1068009216C6 /* CatProfileRow.swift */; };
 		5268B3B72C0C16AF009216C6 /* AppointmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5268B3B62C0C16AF009216C6 /* AppointmentView.swift */; };
+		527378822C161A2700C4E44D /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 527378812C161A2700C4E44D /* Launch Screen.storyboard */; };
+		527378852C161A8300C4E44D /* PurrPal_DB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 527378832C161A8300C4E44D /* PurrPal_DB.xcdatamodeld */; };
 		528A8F722C0B0EE900913F83 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528A8F712C0B0EE900913F83 /* DashboardView.swift */; };
 		528A8F782C0B10CB00913F83 /* CatSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528A8F772C0B10CB00913F83 /* CatSelectionView.swift */; };
 		528A8F7A2C0B31A300913F83 /* VaccineBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528A8F792C0B31A300913F83 /* VaccineBookView.swift */; };
@@ -35,6 +37,8 @@
 		5268B3932C0C0DAC009216C6 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		5268B3952C0C1068009216C6 /* CatProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatProfileRow.swift; sourceTree = "<group>"; };
 		5268B3B62C0C16AF009216C6 /* AppointmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentView.swift; sourceTree = "<group>"; };
+		527378812C161A2700C4E44D /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		527378842C161A8300C4E44D /* PurrPal_DB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PurrPal_DB.xcdatamodel; sourceTree = "<group>"; };
 		528A8F712C0B0EE900913F83 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		528A8F772C0B10CB00913F83 /* CatSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatSelectionView.swift; sourceTree = "<group>"; };
 		528A8F792C0B31A300913F83 /* VaccineBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaccineBookView.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 				528A8F892C0B924E00913F83 /* FoodEntryModel.swift */,
 				52ED11872C0AFBD4005FFC62 /* Assets.xcassets */,
 				52ED11892C0AFBD4005FFC62 /* Preview Content */,
+				527378812C161A2700C4E44D /* Launch Screen.storyboard */,
+				527378832C161A8300C4E44D /* PurrPal_DB.xcdatamodeld */,
 			);
 			path = "PurrPal Demo";
 			sourceTree = "<group>";
@@ -179,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				527378822C161A2700C4E44D /* Launch Screen.storyboard in Resources */,
 				52ED118B2C0AFBD4005FFC62 /* Preview Assets.xcassets in Resources */,
 				52ED11882C0AFBD4005FFC62 /* Assets.xcassets in Resources */,
 			);
@@ -202,6 +209,7 @@
 				528A8F962C0BB53100913F83 /* CatProfile.swift in Sources */,
 				528A8F882C0B814500913F83 /* FeedingHistoryView.swift in Sources */,
 				5268B3B72C0C16AF009216C6 /* AppointmentView.swift in Sources */,
+				527378852C161A8300C4E44D /* PurrPal_DB.xcdatamodeld in Sources */,
 				528A8F722C0B0EE900913F83 /* DashboardView.swift in Sources */,
 				528A8F902C0BA84A00913F83 /* Cat.swift in Sources */,
 				528A8F8A2C0B924E00913F83 /* FoodEntryModel.swift in Sources */,
@@ -347,9 +355,11 @@
 				DEVELOPMENT_TEAM = 22YDT3GFDY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PurrPal;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -377,9 +387,11 @@
 				DEVELOPMENT_TEAM = 22YDT3GFDY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = PurrPal;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -418,6 +430,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		527378832C161A8300C4E44D /* PurrPal_DB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				527378842C161A8300C4E44D /* PurrPal_DB.xcdatamodel */,
+			);
+			currentVersion = 527378842C161A8300C4E44D /* PurrPal_DB.xcdatamodel */;
+			name = PurrPal_DB.xcdatamodeld;
+			path = "/Users/peerawatthongpiya/Library/Mobile Documents/com~apple~CloudDocs/cat-nutrition-application/PurrPal Demo/PurrPal Demo/PurrPal_DB.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 52ED11782C0AFBD3005FFC62 /* Project object */;
 }
